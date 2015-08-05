@@ -1,6 +1,7 @@
 <?php namespace DeSmart\ResizeImage;
 
 use DeSmart\Files\Entity\FileEntity;
+use DeSmart\ResizeImage\Driver\DriverInterface;
 
 /**
  * Class responsible for fetching URL of the image.
@@ -15,7 +16,7 @@ class ResizeImage
      */
     protected $driver;
 
-    public function __construct($driver)
+    public function __construct(DriverInterface $driver)
     {
         $this->driver = $driver;
     }

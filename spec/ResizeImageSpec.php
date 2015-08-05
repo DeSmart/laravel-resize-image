@@ -3,13 +3,13 @@
 use Prophecy\Argument;
 use PhpSpec\ObjectBehavior;
 use DeSmart\Files\Entity\FileEntity;
-use DeSmart\ResizeImage\Driver\LazyResizeDriver;
+use DeSmart\ResizeImage\Driver\DriverInterface;
 
 class ResizeImageSpec extends ObjectBehavior
 {
-    function let()
+    function let(DriverInterface $driver)
     {
-        $this->beConstructedWith(LazyResizeDriver::class);
+        $this->beConstructedWith($driver);
     }
 
     function it_returns_proper_url()
