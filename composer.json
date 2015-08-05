@@ -1,0 +1,10 @@
+{
+    "name": "laravel/resize-image",
+    "authors": [
+        {
+            "name": "Kamil Fojuth",
+            "email": "fen@desmart.com"
+        }
+    ],
+    "require": {}
+}
