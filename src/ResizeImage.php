@@ -1,11 +1,11 @@
 <?php namespace DeSmart\ResizeImage;
 
-use DeSmart\Files\Entity\FileEntity;
-use DeSmart\ResizeImage\Driver\DriverInterface;
 use DeSmart\ResizeImage\Url\Decoder;
+use DeSmart\ResizeImage\Driver\DriverInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class responsible for fetching URL of the image.
+ * Class responsible for making and returning a resized image.
  *
  * @package DeSmart\ResizeImage
  */
@@ -22,10 +22,33 @@ class ResizeImage
         $this->driver = $driver;
     }
 
+    /**
+     * Creates and returns the resized image.
+     *
+     * @param string $path
+     * @return mixed
+     */
     public function getImage($path)
     {
-        $decoder = new Decoder;
+        $urlObject = Decoder::decodePath($path);
 
-        dd($decoder->decode($path));
+        if (false === $this->originalFileExists($urlObject)) {
+            throw new NotFoundHttpException(sprintf('File "%s" not found', $urlObject->getFullPath()));
+        }
+
+        $imageConfig = ImageConfig::createFromUrlObject($urlObject);
+
+        return $this->driver->createImage($urlObject, $imageConfig);
+    }
+
+    /**
+     * Returns true if the original image exists.
+     *
+     * @param UrlObject $urlObject
+     * @return bool
+     */
+    protected function originalFileExists(UrlObject $urlObject)
+    {
+        return $this->driver->exists($urlObject->getFullPath());
     }
 }
