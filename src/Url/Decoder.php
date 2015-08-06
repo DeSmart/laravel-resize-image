@@ -75,4 +75,17 @@ class Decoder
 
         return $options;
     }
+
+    /**
+     * Decodes a part of the URL and returns an UrlObject.
+     *
+     * @param string $path
+     * @return UrlObject mixed
+     */
+    public static function decodePath($path)
+    {
+        $decoder = new static;
+
+        return $decoder->decode($path);
+    }
 }
