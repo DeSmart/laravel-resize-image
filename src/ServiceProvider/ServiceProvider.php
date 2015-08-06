@@ -26,6 +26,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->configure();
 
         $this->registerResizeImage();
+        $this->registerRoutes();
     }
 
     protected function configure()
@@ -46,6 +47,43 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             return new ResizeImage(
                 $this->app->make($driver)
             );
+        });
+    }
+
+    protected function registerRoutes()
+    {
+        $this->app->get('/file/{compoundPath:.+}', function ($compoundPath) {
+            $pathParts = explode('/', $compoundPath);
+
+            // File name with resize definition
+            $fileDefinition = array_pop($pathParts);
+
+            // File dir path
+            $filePath = join('/', $pathParts);
+
+            $fileParts = explode('--', $fileDefinition);
+
+            if (1 === count($fileParts)) {
+                $fileName = $fileParts[0];
+            }
+            else {
+                $fileName = $fileParts[1];
+            }
+
+            var_dump($filePath);
+            var_dump($fileName);
+
+            $definitionArray = explode('_', $fileDefinition);
+
+            foreach ($definitionArray as $optionSet) {
+                list($option, $value) = explode('-', $optionSet);
+
+                $optionArray[$option] = $value;
+            }
+
+            var_dump($optionArray);
+
+            die;
         });
     }
 }
