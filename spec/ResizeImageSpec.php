@@ -2,7 +2,6 @@
 
 use Prophecy\Argument;
 use PhpSpec\ObjectBehavior;
-use DeSmart\Files\Entity\FileEntity;
 use DeSmart\ResizeImage\Driver\DriverInterface;
 
 class ResizeImageSpec extends ObjectBehavior
@@ -12,13 +11,10 @@ class ResizeImageSpec extends ObjectBehavior
         $this->beConstructedWith($driver);
     }
 
-    function it_returns_proper_url()
+    function it_returns_an_image()
     {
-        $file = new FileEntity;
-        $file->setPath('foo/bar/baz.png');
-
-        $config = [];
-
-        $this->getUrl($file, $config);
+        /**
+         * @todo write logic
+         */
     }
 }

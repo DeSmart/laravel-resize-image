@@ -2,6 +2,7 @@
 
 use DeSmart\Files\Entity\FileEntity;
 use DeSmart\ResizeImage\Driver\DriverInterface;
+use DeSmart\ResizeImage\Url\Decoder;
 
 /**
  * Class responsible for fetching URL of the image.
@@ -21,8 +22,10 @@ class ResizeImage
         $this->driver = $driver;
     }
 
-    public function getUrl(FileEntity $file, $config)
+    public function getImage($path)
     {
-        // TODO: write logic here
+        $decoder = new Decoder;
+
+        dd($decoder->decode($path));
     }
 }
