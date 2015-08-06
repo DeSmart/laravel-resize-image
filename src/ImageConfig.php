@@ -18,6 +18,7 @@ class ImageConfig
     protected $methodMap = [
         'w' => 'width',
         'h' => 'height',
+        'fit' => 'fit',
     ];
 
     public function __construct(array $resizeParams = [])
@@ -57,7 +58,7 @@ class ImageConfig
             return null;
         }
 
-        return sprintf('set%s', ucfirst($this->methodMap[$shortcut]));
+        return $this->methodMap[$shortcut];
     }
 
     /**
@@ -89,7 +90,7 @@ class ImageConfig
         return $this->params[$key];
     }
 
-    public function setWidth($width)
+    public function width($width)
     {
         return $this->setParam('width', (int)$width);
     }
@@ -99,7 +100,7 @@ class ImageConfig
         return $this->getParam('width');
     }
 
-    public function setHeight($height)
+    public function height($height)
     {
         return $this->setParam('height', (int)$height);
     }
@@ -107,5 +108,15 @@ class ImageConfig
     public function getHeight()
     {
         return $this->getParam('height');
+    }
+
+    public function fit($fit)
+    {
+        return $this->setParam('fit', $fit);
+    }
+
+    public function getFit()
+    {
+        return $this->getParam('fit');
     }
 }

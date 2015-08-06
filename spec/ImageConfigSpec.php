@@ -11,12 +11,14 @@ class ImageConfigSpec extends ObjectBehavior
         $urlObject = new UrlObject('foo', 'bar.baz', [
             'w' => '600',
             'h' => '250',
+            'fit' => 'crop',
         ]);
 
         $this->beConstructedWith($urlObject->getResizeParams());
 
         $this->getWidth()->shouldBe(600);
         $this->getHeight()->shouldBe(250);
+        $this->getFit()->shouldBe('crop');
     }
 
     function it_ignores_invalid_values()
@@ -30,5 +32,16 @@ class ImageConfigSpec extends ObjectBehavior
 
         $this->getWidth()->shouldBe(600);
         $this->getHeight()->shouldBe(null);
+    }
+
+    function it_has_setters_to_manually_set_values()
+    {
+        $this->width(300)
+            ->height(200)
+            ->fit('crop');
+
+        $this->getWidth()->shouldBe(300);
+        $this->getHeight()->shouldBe(200);
+        $this->getFit()->shouldBe('crop');
     }
 }

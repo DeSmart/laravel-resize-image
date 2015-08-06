@@ -68,12 +68,16 @@ class LazyResizeDriver implements DriverInterface
     {
         $image = $this->image->make($this->storage->get($path));
 
-        // Resize
         $width = $imageConfig->getWidth();
         $height = $imageConfig->getHeight();
 
         if (false === is_null($width) && false === is_null($height)) {
-            $image->resize($width, $height);
+            if ($imageConfig->getFit()) {
+                $image->fit($width, $height);
+            }
+            else {
+                $image->resize($width, $height);
+            }
         }
 
         return $image;
