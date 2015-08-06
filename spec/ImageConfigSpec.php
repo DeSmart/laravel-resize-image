@@ -13,6 +13,8 @@ class ImageConfigSpec extends ObjectBehavior
             'h' => '250',
             'fit' => 'crop',
             'g' => '1',
+            's' => '15',
+            'b' => '75',
         ]);
 
         $this->beConstructedWith($urlObject->getResizeParams());
@@ -21,6 +23,8 @@ class ImageConfigSpec extends ObjectBehavior
         $this->getHeight()->shouldBe(250);
         $this->getFit()->shouldBe('crop');
         $this->getGreyscale()->shouldBe('1');
+        $this->getSharpen()->shouldBe(15);
+        $this->getBlur()->shouldBe(75);
     }
 
     function it_ignores_invalid_values()

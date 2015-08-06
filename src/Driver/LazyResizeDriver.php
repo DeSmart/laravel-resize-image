@@ -86,6 +86,14 @@ class LazyResizeDriver implements DriverInterface
             $image->greyscale();
         }
 
+        // Sharpen / blur
+        if ($imageConfig->getSharpen()) {
+            $image->sharpen($imageConfig->getSharpen());
+        }
+        else if ($imageConfig->getBlur()) {
+            $image->blur($imageConfig->getBlur());
+        }
+
         return $image;
     }
 }
