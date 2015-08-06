@@ -27,7 +27,7 @@ class ImageConfig
     public function __construct(array $resizeParams = [])
     {
 
-        // Iterat through the resize options and set valid properties
+        // Iterate through the resize options and set valid properties
         foreach ($resizeParams as $option => $value) {
             $methodName = $this->getSetterName($option);
 
