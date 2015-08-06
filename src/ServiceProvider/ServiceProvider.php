@@ -2,6 +2,7 @@
 
 use DeSmart\ResizeImage\ResizeImage;
 use DeSmart\ResizeImage\UrlGenerator;
+use DeSmart\ResizeImage\Driver\LazyResizeDriver;
 use DeSmart\ResizeImage\Driver\Exception\DriverDoesNotExistException;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -38,7 +39,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected function registerClasses()
     {
         $config = $this->app['config']->get('desmart_resize_image');
-        $driver = '\\DeSmart\\ResizeImage\\Driver\\'.$config['driver'];
+        $driver = 'DeSmart\\ResizeImage\\Driver\\'.$config['driver'];
 
         if (false === class_exists($driver)) {
             throw new DriverDoesNotExistException;
@@ -55,10 +56,17 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                 $this->app->make($driver)
             );
         });
+
+        $this->app->bind(LazyResizeDriver::class, function () {
+            return new LazyResizeDriver(
+                $this->app->make('desmart_files.storage'),
+                $this->app->make('image')
+            );
+        });
     }
 
     protected function registerRoutes()
     {
-        $this->app->get('/img/{path:.+}', 'DeSmart\ResizeImage\Controller\ResizeImageController@getImage');
+        $this->app->get('/upload/resize/{path:.+}', 'DeSmart\ResizeImage\Controller\ResizeImageController@getImage');
     }
 }
