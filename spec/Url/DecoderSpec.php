@@ -38,7 +38,7 @@ class DecoderSpec extends ObjectBehavior
             'w' => '50',
             'h' => '90',
             'fit' => 'crop',
-        ]);
+        ], 'w-50_h-90_fit-crop');
 
         $this->decode($path)
             ->shouldBeLike($expected);

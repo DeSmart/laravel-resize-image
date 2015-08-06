@@ -18,11 +18,17 @@ class UrlObject
      */
     protected $resizeParams;
 
-    public function __construct($path, $fileName, $resizeParams)
+    /**
+     * @var string
+     */
+    protected $resizeParamsRaw;
+
+    public function __construct($path, $fileName, array $resizeParams = [], $resizeParamsRaw = '')
     {
         $this->path = $path;
         $this->fileName = $fileName;
         $this->resizeParams = $resizeParams;
+        $this->resizeParamsRaw = $resizeParamsRaw;
     }
 
     /**
@@ -55,5 +61,13 @@ class UrlObject
     public function getFullPath()
     {
         return $this->getPath().'/'.$this->getFileName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getResizeParamsRaw()
+    {
+        return $this->resizeParamsRaw;
     }
 }

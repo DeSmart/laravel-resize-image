@@ -24,7 +24,8 @@ class Decoder
         return new UrlObject(
             $this->getPath($uriParts),
             $this->getFileName($filePart),
-            $this->getResizeParams($filePart)
+            $this->getResizeParams($filePart),
+            $this->getResizeParamsRaw($filePart)
         );
     }
 
@@ -74,6 +75,19 @@ class Decoder
         }
 
         return $options;
+    }
+
+    /**
+     * Returns resize params in raw format.
+     *
+     * @param string $filePart
+     * @return string
+     */
+    protected function getResizeParamsRaw($filePart)
+    {
+        $params = explode('--', $filePart);
+
+        return (2 === count($params)) ? $params[0] : null;
     }
 
     /**
