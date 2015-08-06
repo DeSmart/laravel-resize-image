@@ -25,6 +25,13 @@ class Encoder
         );
     }
 
+    public static function encodeFromUrlObject(UrlObject $urlObject)
+    {
+        $encoder = new static;
+
+        return $encoder->encode($urlObject);
+    }
+
     /**
      * Combines the file name with resize params and returns it as a string.
      *
