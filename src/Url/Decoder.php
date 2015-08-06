@@ -62,11 +62,13 @@ class Decoder
     protected function getResizeParams($filePart)
     {
         $options = [];
-        $definitionArray = explode('_', $filePart);
+        $definitionArray = explode('--', $filePart);
 
         if (1 === count($definitionArray)) {
             return [];
         }
+
+        $definitionArray = explode('_', $definitionArray[0]);
 
         foreach ($definitionArray as $optionSet) {
             list($option, $value) = explode('-', $optionSet);
