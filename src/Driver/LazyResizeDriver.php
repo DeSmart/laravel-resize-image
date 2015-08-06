@@ -71,6 +71,7 @@ class LazyResizeDriver implements DriverInterface
         $width = $imageConfig->getWidth();
         $height = $imageConfig->getHeight();
 
+        // Resize / crop
         if (false === is_null($width) && false === is_null($height)) {
             if ($imageConfig->getFit()) {
                 $image->fit($width, $height);
@@ -78,6 +79,11 @@ class LazyResizeDriver implements DriverInterface
             else {
                 $image->resize($width, $height);
             }
+        }
+
+        // Greyscale
+        if ($imageConfig->getGreyscale()) {
+            $image->greyscale();
         }
 
         return $image;

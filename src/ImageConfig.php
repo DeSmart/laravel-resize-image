@@ -19,6 +19,7 @@ class ImageConfig
         'w' => 'width',
         'h' => 'height',
         'fit' => 'fit',
+        'g' => 'greyscale',
     ];
 
     public function __construct(array $resizeParams = [])
@@ -118,5 +119,15 @@ class ImageConfig
     public function getFit()
     {
         return $this->getParam('fit');
+    }
+
+    public function greyscale($greyscale)
+    {
+        return $this->setParam('greyscale', $greyscale);
+    }
+
+    public function getGreyscale()
+    {
+        return $this->getParam('greyscale');
     }
 }
