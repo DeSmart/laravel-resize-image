@@ -2,6 +2,7 @@
 
 use DeSmart\ResizeImage\UrlObject;
 use DeSmart\ResizeImage\ImageConfig;
+use DeSmart\ResizeImage\Url\Encoder;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Intervention\Image\ImageManager as Image;
 
@@ -44,9 +45,36 @@ class LazyResizeDriver implements DriverInterface
      */
     public function createImage(UrlObject $urlObject, ImageConfig $imageConfig)
     {
-        $image = $this->image->make($this->storage->get($urlObject->getFullPath()))->resize(300, 200);
 
-        $this->storage->put('resize/'.$urlObject->getFullPath(), $image->response());
+        // Make the image
+        $image = $this->makeImage($imageConfig, $urlObject->getFullPath());
+
+        $targetFilePath = Encoder::encodeFromUrlObject($urlObject);
+
+        // Store the image
+        $this->storage->put('resize/'.$targetFilePath, $image->response());
+
+        return $image;
+    }
+
+    /**
+     * Make the image and apply modifications.
+     *
+     * @param ImageConfig $imageConfig
+     * @param string $path
+     * @return \Intervention\Image\Image
+     */
+    protected function makeImage(ImageConfig $imageConfig, $path)
+    {
+        $image = $this->image->make($this->storage->get($path));
+
+        // Resize
+        $width = $imageConfig->getWidth();
+        $height = $imageConfig->getHeight();
+
+        if (false === is_null($width) && false === is_null($height)) {
+            $image->resize($width, $height);
+        }
 
         return $image;
     }
