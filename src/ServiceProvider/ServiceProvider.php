@@ -1,6 +1,7 @@
 <?php namespace DeSmart\ResizeImage\ServiceProvider;
 
 use DeSmart\ResizeImage\ResizeImage;
+use DeSmart\ResizeImage\UrlGenerator;
 use DeSmart\ResizeImage\Driver\Exception\DriverDoesNotExistException;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -25,7 +26,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $this->configure();
 
-        $this->registerResizeImage();
+        $this->registerClasses();
         $this->registerRoutes();
     }
 
@@ -34,7 +35,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->mergeConfigFrom($this->configPath, 'desmart_resize_image');
     }
 
-    protected function registerResizeImage()
+    protected function registerClasses()
     {
         $config = $this->app['config']->get('desmart_resize_image');
         $driver = '\\DeSmart\\ResizeImage\\Driver\\'.$config['driver'];
@@ -48,42 +49,16 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                 $this->app->make($driver)
             );
         });
+
+        $this->app->bind(UrlGenerator::class, function () use ($driver) {
+            return new UrlGenerator(
+                $this->app->make($driver)
+            );
+        });
     }
 
     protected function registerRoutes()
     {
-        $this->app->get('/file/{compoundPath:.+}', function ($compoundPath) {
-            $pathParts = explode('/', $compoundPath);
-
-            // File name with resize definition
-            $fileDefinition = array_pop($pathParts);
-
-            // File dir path
-            $filePath = join('/', $pathParts);
-
-            $fileParts = explode('--', $fileDefinition);
-
-            if (1 === count($fileParts)) {
-                $fileName = $fileParts[0];
-            }
-            else {
-                $fileName = $fileParts[1];
-            }
-
-            var_dump($filePath);
-            var_dump($fileName);
-
-            $definitionArray = explode('_', $fileDefinition);
-
-            foreach ($definitionArray as $optionSet) {
-                list($option, $value) = explode('-', $optionSet);
-
-                $optionArray[$option] = $value;
-            }
-
-            var_dump($optionArray);
-
-            die;
-        });
+        $this->app->get('/img/{path:.+}', 'DeSmart\ResizeImage\Controller\ResizeImageController@getImage');
     }
 }
