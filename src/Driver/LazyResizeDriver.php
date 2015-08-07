@@ -19,10 +19,16 @@ class LazyResizeDriver implements DriverInterface
      */
     protected $image;
 
-    public function __construct(FilesystemAdapter $storage, Image $image)
+    /**
+     * @var
+     */
+    protected $uploadUrl;
+
+    public function __construct(FilesystemAdapter $storage, Image $image, $uploadUrl)
     {
         $this->storage = $storage;
         $this->image = $image;
+        $this->uploadUrl = $uploadUrl;
     }
 
     /**
@@ -95,5 +101,15 @@ class LazyResizeDriver implements DriverInterface
         }
 
         return $image;
+    }
+
+    /**
+     * Returns upload URL.
+     *
+     * @return string
+     */
+    public function getUploadUrl()
+    {
+        return $this->uploadUrl;
     }
 }

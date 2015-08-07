@@ -27,4 +27,11 @@ interface DriverInterface
      * @return mixed
      */
     public function createImage(UrlObject $urlObject, ImageConfig $imageConfig);
+
+    /**
+     * Returns upload URL.
+     *
+     * @return string
+     */
+    public function getUploadUrl();
 }

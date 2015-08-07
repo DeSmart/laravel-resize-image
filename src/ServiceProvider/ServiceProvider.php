@@ -52,16 +52,17 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             );
         });
 
-        $this->app->bind(UrlGenerator::class, function () use ($driver) {
+        $this->app->bind(UrlGenerator::class, function () use ($driver, $config) {
             return new UrlGenerator(
                 $this->app->make($driver)
             );
         });
 
-        $this->app->bind(LazyResizeDriver::class, function () {
+        $this->app->bind(LazyResizeDriver::class, function () use ($config) {
             return new LazyResizeDriver(
                 $this->app->make('desmart_files.storage'),
-                $this->app->make('image')
+                $this->app->make('image'),
+                $config['upload_url']
             );
         });
     }

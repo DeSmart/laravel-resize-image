@@ -12,7 +12,7 @@ class LazyResizeDriverSpec extends ObjectBehavior
 {
     function let(FilesystemAdapter $storage, ImageManager $imageManager)
     {
-        $this->beConstructedWith($storage, $imageManager);
+        $this->beConstructedWith($storage, $imageManager, 'http://foo.bar/upload');
     }
 
     function it_checks_if_the_file_exists(FilesystemAdapter $storage)
@@ -39,5 +39,10 @@ class LazyResizeDriverSpec extends ObjectBehavior
         $imageConfig = new ImageConfig($urlObject->getResizeParams());
 
         $this->createImage($urlObject, $imageConfig)->shouldBe($image);
+    }
+
+    public function it_returns_upload_url()
+    {
+        $this->getUploadUrl()->shouldBe('http://foo.bar/upload');
     }
 }
