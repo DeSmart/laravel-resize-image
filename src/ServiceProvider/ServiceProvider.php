@@ -3,7 +3,7 @@
 use DeSmart\ResizeImage\ResizeImage;
 use DeSmart\ResizeImage\UrlGenerator;
 use DeSmart\ResizeImage\Driver\LazyResizeDriver;
-use DeSmart\ResizeImage\Driver\Exception\DriverDoesNotExistException;
+use DeSmart\ResizeImage\DriverNotFoundException;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -43,7 +43,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $driver = 'DeSmart\\ResizeImage\\Driver\\'.$config['driver'];
 
         if (false === class_exists($driver)) {
-            throw new DriverDoesNotExistException;
+            throw new DriverNotFoundException;
         }
 
         $this->app->bind(ResizeImage::class, function () use ($driver) {
