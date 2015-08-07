@@ -32,7 +32,7 @@ class UrlGeneratorSpec extends ObjectBehavior
             $imageConfig->getParams()
         );
 
-        $driver->getUploadUrl($urlObject)->willReturn($expected = 'http://foo.bar/baz/10/20/w-600_h-400_b-15_g-1--foo.jpg');
+        $driver->getUrl($urlObject)->willReturn($expected = 'http://foo.bar/baz/10/20/w-600_h-400_b-15_g-1--foo.jpg');
 
         $this->getUrl($file, $imageConfig)->shouldBe($expected);
     }
@@ -48,7 +48,7 @@ class UrlGeneratorSpec extends ObjectBehavior
             $file->getName()
         );
 
-        $driver->getUploadUrl($urlObject)->willReturn($expected = 'http://foo.bar/baz/10/20/foo.jpg');
+        $driver->getUrl($urlObject)->willReturn($expected = 'http://foo.bar/baz/10/20/foo.jpg');
 
         $this->getUrl($file)->shouldBe($expected);
     }
