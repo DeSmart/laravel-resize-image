@@ -27,6 +27,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $this->configure();
 
+        $this->registerProviders();
         $this->registerClasses();
         $this->registerRoutes();
     }
@@ -68,5 +69,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected function registerRoutes()
     {
         $this->app->get('/upload/resize/{path:.+}', 'DeSmart\ResizeImage\Controller\ResizeImageController@getImage');
+    }
+
+    protected function registerProviders()
+    {
+        $this->app->register('Intervention\Image\ImageServiceProvider');
     }
 }

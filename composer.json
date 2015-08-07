@@ -7,7 +7,8 @@
         }
     ],
     "require": {
-        "desmart/files": "2.1.*"
+        "desmart/files": "2.1.*",
+        "intervention/image": "2.3.*"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.1@dev"
@@ -17,5 +18,12 @@
         "psr-4": {
             "DeSmart\\ResizeImage\\": "src/"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://dev:o4ywKVHjvTJwkLHlgyl1@packagist.desmart.com"
+        }
+    ],
+    "minimum-stability": "dev"
 }
