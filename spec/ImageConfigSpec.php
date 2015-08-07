@@ -50,4 +50,17 @@ class ImageConfigSpec extends ObjectBehavior
         $this->getHeight()->shouldBe(200);
         $this->getFit()->shouldBe('crop');
     }
+
+    function it_returns_registered_params()
+    {
+        $this->width(300)
+            ->height(200)
+            ->fit();
+
+        $this->getParams()->shouldBe([
+            'w' => 300,
+            'h' => 200,
+            'fit' => 1,
+        ]);
+    }
 }

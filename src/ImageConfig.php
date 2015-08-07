@@ -113,7 +113,7 @@ class ImageConfig
         return $this->getParam('height');
     }
 
-    public function fit($fit)
+    public function fit($fit = 1)
     {
         return $this->setParam('fit', $fit);
     }
@@ -123,7 +123,7 @@ class ImageConfig
         return $this->getParam('fit');
     }
 
-    public function greyscale($greyscale)
+    public function greyscale($greyscale = 1)
     {
         return $this->setParam('greyscale', $greyscale);
     }
@@ -133,7 +133,7 @@ class ImageConfig
         return $this->getParam('greyscale');
     }
 
-    public function sharpen($sharpen)
+    public function sharpen($sharpen = 1)
     {
         return $this->setParam('sharpen', (int)$sharpen);
     }
@@ -143,7 +143,7 @@ class ImageConfig
         return $this->getParam('sharpen');
     }
 
-    public function blur($blur)
+    public function blur($blur = 1)
     {
         return $this->setParam('blur', (int)$blur);
     }
@@ -151,5 +151,23 @@ class ImageConfig
     public function getBlur()
     {
         return $this->getParam('blur');
+    }
+
+    /**
+     * Returns all registered params with short names (e.g. "w" instead of "width").
+     *
+     * @return array
+     */
+    public function getParams()
+    {
+        $params = [];
+
+        foreach ($this->params as $fullName => $value) {
+            $shortcut = array_search($fullName, $this->methodMap);
+
+            $params[$shortcut] = $value;
+        }
+
+        return $params;
     }
 }
