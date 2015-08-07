@@ -60,7 +60,7 @@ class ImageConfigSpec extends ObjectBehavior
         $this->getParams()->shouldBe([
             'w' => 300,
             'h' => 200,
-            'fit' => 1,
+            'fit' => true,
         ]);
     }
 }

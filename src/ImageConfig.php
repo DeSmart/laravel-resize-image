@@ -113,7 +113,7 @@ class ImageConfig
         return $this->getParam('height');
     }
 
-    public function fit($fit = 1)
+    public function fit($fit = true)
     {
         return $this->setParam('fit', $fit);
     }
@@ -123,7 +123,7 @@ class ImageConfig
         return $this->getParam('fit');
     }
 
-    public function greyscale($greyscale = 1)
+    public function greyscale($greyscale = true)
     {
         return $this->setParam('greyscale', $greyscale);
     }
