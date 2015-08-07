@@ -35,13 +35,8 @@ class UrlGenerator
             $imageConfig = new ImageConfig;
         }
 
-        $path = explode('/', $file->getPath());
-
-        // Remove the file name from the path
-        array_pop($path);
-
         $urlObject = new UrlObject(
-            join('/', $path),
+            dirname($file->getPath()),
             $file->getName(),
             $imageConfig->getParams()
         );

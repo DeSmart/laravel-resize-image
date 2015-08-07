@@ -11,7 +11,7 @@ class DecoderSpec extends ObjectBehavior
 
         // No dirs
         $path = 'file.jpg';
-        $expected = new UrlObject('', 'file.jpg', []);
+        $expected = new UrlObject('.', 'file.jpg', [], null);
 
         $this->decode($path)
             ->shouldBeLike($expected);

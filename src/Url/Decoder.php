@@ -18,14 +18,14 @@ class Decoder
      */
     public function decode($uri)
     {
-        $uriParts = explode('/', $uri);
-        $filePart = array_pop($uriParts);
+        $dir = dirname($uri);
+        $basename = basename($uri);
 
         return new UrlObject(
-            $this->getPath($uriParts),
-            $this->getFileName($filePart),
-            $this->getResizeParams($filePart),
-            $this->getResizeParamsRaw($filePart)
+            $dir,
+            $this->getFileName($basename),
+            $this->getResizeParams($basename),
+            $this->getResizeParamsRaw($basename)
         );
     }
 
@@ -40,17 +40,6 @@ class Decoder
         $fileName = explode('--', $filePart);
 
         return (2 === count($fileName)) ? $fileName[1] : $fileName[0];
-    }
-
-    /**
-     * Returns file's path (without name).
-     *
-     * @param array $uriParts
-     * @return string
-     */
-    protected function getPath(array $uriParts = [])
-    {
-        return join('/', $uriParts);
     }
 
     /**
