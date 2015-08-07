@@ -1,5 +1,6 @@
 <?php namespace DeSmart\ResizeImage;
 
+use DeSmart\ResizeImage\Url\Encoder;
 use DeSmart\Files\Entity\FileEntity;
 use DeSmart\ResizeImage\Driver\DriverInterface;
 
@@ -21,8 +22,30 @@ class UrlGenerator
         $this->driver = $driver;
     }
 
-    public function getUrl(FileEntity $file, $config)
+    /**
+     * Generates an image URL for the file
+     *
+     * @param FileEntity $file
+     * @param ImageConfig $imageConfig
+     * @return string
+     */
+    public function getUrl(FileEntity $file, ImageConfig $imageConfig = null)
     {
-        // @todo write logic here
+        if (null === $imageConfig) {
+            $imageConfig = new ImageConfig;
+        }
+
+        $path = explode('/', $file->getPath());
+
+        // Remove the file name from the path
+        array_pop($path);
+
+        $urlObject = new UrlObject(
+            join('/', $path),
+            $file->getName(),
+            $imageConfig->getParams()
+        );
+
+        return $this->driver->getUploadUrl().'/'.Encoder::encodeFromUrlObject($urlObject);
     }
 }
