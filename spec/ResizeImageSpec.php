@@ -3,36 +3,39 @@
 use Prophecy\Argument;
 use PhpSpec\ObjectBehavior;
 use Intervention\Image\Image;
-use DeSmart\ResizeImage\ImageConfig;
-use DeSmart\ResizeImage\Url\Decoder;
-use DeSmart\ResizeImage\Driver\DriverInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use DeSmart\ResizeImage\UrlObject;
+use Intervention\Image\ImageManager;
+use Illuminate\Filesystem\FilesystemAdapter;
+use DeSmart\ResizeImage\FileNotFoundException;
 
 class ResizeImageSpec extends ObjectBehavior
 {
-    function let(DriverInterface $driver)
+    function let(FilesystemAdapter $storage, ImageManager $imageManager)
     {
-        $this->beConstructedWith($driver);
+        $this->beConstructedWith($storage, $imageManager);
     }
 
-    function it_returns_an_image(DriverInterface $driver)
+    function it_throws_exception_when_original_image_does_not_exist(FilesystemAdapter $storage)
     {
-        $path = 'foo/bar.jpg';
-        $urlObject = Decoder::decodePath($path);
-        $imageConfig = ImageConfig::createFromUrlObject($urlObject);
+        $urlObject = new UrlObject('foo', 'bar.jpg');
 
-        $driver->exists($path)->willReturn(true);
-        $driver->createImage($urlObject, $imageConfig)->shouldBeCalled()->willReturn($image = new Image);
+        $storage->exists($urlObject->getFullPath())->willReturn(false);
 
-        $this->getImage($path)->shouldReturn($image);
+        $this->shouldThrow(FileNotFoundException::class)->during('resize', [$urlObject]);
     }
 
-    function it_throws_exception_when_original_image_does_not_exist(DriverInterface $driver)
+    public function it_returns_an_image(FilesystemAdapter $storage, ImageManager $imageManager, Image $image)
     {
-        $path = 'foo/bar.jpg';
+        $image->response()->shouldBeCalled()->willReturn('image');
 
-        $driver->exists($path)->willReturn(false);
+        $imageManager->make('resource')->shouldBeCalled()->willReturn($image);
 
-        $this->shouldThrow(NotFoundHttpException::class)->during('getImage', [$path]);
+        $storage->exists('foo/bar.jpg')->shouldBeCalled()->willReturn(true);
+        $storage->get('foo/bar.jpg')->shouldBeCalled()->willReturn('resource');
+        $storage->put('resize/foo/bar.jpg', $image->getWrappedObject()->response())->shouldBeCalled();
+
+        $urlObject = new UrlObject('foo', 'bar.jpg');
+
+        $this->resize($urlObject)->shouldBe($image);
     }
 }

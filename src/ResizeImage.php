@@ -1,8 +1,8 @@
 <?php namespace DeSmart\ResizeImage;
 
-use DeSmart\ResizeImage\Url\Decoder;
-use DeSmart\ResizeImage\Driver\DriverInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use DeSmart\ResizeImage\Url\Encoder;
+use Intervention\Image\ImageManager;
+use Illuminate\Filesystem\FilesystemAdapter;
 
 /**
  * Class responsible for making and returning a resized image.
@@ -13,42 +13,108 @@ class ResizeImage
 {
 
     /**
-     * @var \DeSmart\ResizeImage\Driver\DriverInterface
+     * @var FilesystemAdapter
      */
-    protected $driver;
+    protected $storage;
 
-    public function __construct(DriverInterface $driver)
+    /**
+     * @var ImageManager
+     */
+    protected $imageManager;
+
+    public function __construct(FilesystemAdapter $storage, ImageManager $imageManager)
     {
-        $this->driver = $driver;
+        $this->storage = $storage;
+        $this->imageManager = $imageManager;
     }
 
     /**
      * Creates and returns the resized image.
      *
-     * @param string $path
+     * @param UrlObject $urlObject
+     * @throws FileNotFoundException
      * @return mixed
      */
-    public function getImage($path)
+    public function resize(UrlObject $urlObject)
     {
-        $urlObject = Decoder::decodePath($path);
-
-        if (false === $this->originalFileExists($urlObject)) {
-            throw new NotFoundHttpException(sprintf('File "%s" not found', $urlObject->getFullPath()));
+        if (false === $this->exists($urlObject->getFullPath())) {
+            throw new FileNotFoundException(sprintf('File "%s" not found', $urlObject->getFullPath()));
         }
 
-        $imageConfig = ImageConfig::createFromUrlObject($urlObject);
-
-        return $this->driver->createImage($urlObject, $imageConfig);
+        return $this->createImage(
+            $urlObject
+        );
     }
 
     /**
-     * Returns true if the original image exists.
+     * Returns true if the file exists.
      *
-     * @param UrlObject $urlObject
+     * @param string $fileName
      * @return bool
      */
-    protected function originalFileExists(UrlObject $urlObject)
+    protected function exists($fileName)
     {
-        return $this->driver->exists($urlObject->getFullPath());
+        return $this->storage->exists($fileName);
+    }
+
+    /**
+     * Creates an image based on ImageConfig, modifies and returns it.
+     *
+     * @param UrlObject $urlObject
+     * @return mixed
+     */
+    protected function createImage(UrlObject $urlObject)
+    {
+        $imageConfig = ImageConfig::createFromUrlObject($urlObject);
+
+        // Make the image
+        $image = $this->makeImage($imageConfig, $urlObject->getFullPath());
+
+        $targetFilePath = Encoder::encodeFromUrlObject($urlObject);
+
+        // Store the image
+        $this->storage->put('resize/'.$targetFilePath, $image->response());
+
+        return $image;
+    }
+
+    /**
+     * Make the image and apply modifications.
+     *
+     * @param ImageConfig $imageConfig
+     * @param string $path
+     * @return \Intervention\Image\Image
+     */
+    protected function makeImage(ImageConfig $imageConfig, $path)
+    {
+        $image = $this->imageManager->make($this->storage->get($path));
+
+        $width = $imageConfig->getWidth();
+        $height = $imageConfig->getHeight();
+
+        // Resize / crop
+        if (false === is_null($width) && false === is_null($height)) {
+            if ($imageConfig->getFit()) {
+                $image->fit($width, $height);
+            }
+            else {
+                $image->resize($width, $height);
+            }
+        }
+
+        // Greyscale
+        if ($imageConfig->getGreyscale()) {
+            $image->greyscale();
+        }
+
+        // Sharpen / blur
+        if ($imageConfig->getSharpen()) {
+            $image->sharpen($imageConfig->getSharpen());
+        }
+        else if ($imageConfig->getBlur()) {
+            $image->blur($imageConfig->getBlur());
+        }
+
+        return $image;
     }
 }

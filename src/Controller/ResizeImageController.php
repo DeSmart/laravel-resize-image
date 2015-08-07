@@ -1,6 +1,7 @@
 <?php namespace DeSmart\ResizeImage\Controller;
 
 use Illuminate\Http\Response;
+use DeSmart\ResizeImage\Url\Decoder;
 use App\Http\Controllers\Controller;
 use DeSmart\ResizeImage\ResizeImage;
 
@@ -26,7 +27,9 @@ class ResizeImageController extends Controller
     public function getImage($path)
     {
         return new Response(
-            $this->resizeImage->getImage($path)
+            $this->resizeImage->resize(
+                Decoder::decodePath($path)
+            )
         );
     }
 }

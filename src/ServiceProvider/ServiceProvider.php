@@ -1,5 +1,6 @@
 <?php namespace DeSmart\ResizeImage\ServiceProvider;
 
+use DeSmart\ResizeImage\ResizeImage;
 use DeSmart\ResizeImage\Driver\DriverInterface;
 use DeSmart\ResizeImage\Driver\LazyResizeDriver;
 use DeSmart\ResizeImage\DriverNotFoundException;
@@ -39,9 +40,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->app->bind(LazyResizeDriver::class, function () use ($config) {
             return new LazyResizeDriver(
-                $this->app->make('desmart_files.storage'),
-                $this->app->make('image'),
                 $config['upload_url']
+            );
+        });
+
+        $this->app->bind(ResizeImage::class, function () {
+            return new ResizeImage(
+                $this->app->make('desmart_files.storage'),
+                $this->app->make('image')
             );
         });
 
