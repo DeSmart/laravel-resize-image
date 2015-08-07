@@ -4,6 +4,8 @@ use Illuminate\Http\Response;
 use DeSmart\ResizeImage\Url\Decoder;
 use App\Http\Controllers\Controller;
 use DeSmart\ResizeImage\ResizeImage;
+use DeSmart\ResizeImage\FileNotFoundException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ResizeImageController extends Controller
 {
@@ -26,10 +28,13 @@ class ResizeImageController extends Controller
      */
     public function getImage($path)
     {
-        return new Response(
-            $this->resizeImage->resize(
-                Decoder::decodePath($path)
-            )
-        );
+        try {
+            $urlObject = Decoder::decodePath($path);
+            $image = $this->resizeImage->resize($urlObject);
+
+            return new Response($image);
+        } catch (FileNotFoundException $e) {
+            throw new NotFoundHttpException;
+        }
     }
 }
