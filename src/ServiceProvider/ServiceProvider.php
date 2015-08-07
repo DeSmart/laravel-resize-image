@@ -7,14 +7,7 @@ use DeSmart\ResizeImage\DriverNotFoundException;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-    protected $configPath;
-
-    public function __construct($app)
-    {
-        parent::__construct($app);
-
-        $this->configPath = __DIR__.'/../../config/desmart_resize_image.php';
-    }
+    protected $configPath = __DIR__.'/../../config/desmart_resize_image.php';
 
     public function boot()
     {
