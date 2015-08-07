@@ -43,6 +43,8 @@ class LazyResizeDriverSpec extends ObjectBehavior
 
     public function it_returns_upload_url()
     {
-        $this->getUploadUrl()->shouldBe('http://foo.bar/upload');
+        $urlObject = new UrlObject('10/20', 'img.jpg');
+
+        $this->getUploadUrl($urlObject)->shouldBe('http://foo.bar/upload/10/20/img.jpg');
     }
 }

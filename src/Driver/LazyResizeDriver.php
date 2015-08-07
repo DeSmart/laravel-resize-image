@@ -104,12 +104,13 @@ class LazyResizeDriver implements DriverInterface
     }
 
     /**
-     * Returns upload URL.
+     * Returns upload URL based on an UrlObject instance.
      *
+     * @param UrlObject $urlObject
      * @return string
      */
-    public function getUploadUrl()
+    public function getUploadUrl(UrlObject $urlObject)
     {
-        return $this->uploadUrl;
+        return $this->uploadUrl.'/'.Encoder::encodeFromUrlObject($urlObject);
     }
 }

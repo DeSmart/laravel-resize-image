@@ -29,9 +29,10 @@ interface DriverInterface
     public function createImage(UrlObject $urlObject, ImageConfig $imageConfig);
 
     /**
-     * Returns upload URL.
+     * Returns upload URL based on an UrlObject instance.
      *
+     * @param UrlObject $urlObject
      * @return string
      */
-    public function getUploadUrl();
+    public function getUploadUrl(UrlObject $urlObject);
 }

@@ -41,6 +41,6 @@ class UrlGenerator
             $imageConfig->getParams()
         );
 
-        return $this->driver->getUploadUrl().'/'.Encoder::encodeFromUrlObject($urlObject);
+        return $this->driver->getUploadUrl($urlObject);
     }
 }
