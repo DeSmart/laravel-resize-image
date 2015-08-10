@@ -4,7 +4,6 @@ class LumenServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->registerRoutes();
     }
 
     protected function configure()
