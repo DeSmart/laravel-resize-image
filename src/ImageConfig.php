@@ -133,6 +133,12 @@ class ImageConfig
         return $this->getParam('greyscale');
     }
 
+    /**
+     * Sharpen an image. Values range from 1 (slight sharpen) to 100 (maximum sharpen).
+     *
+     * @param int $sharpen
+     * @return ImageConfig
+     */
     public function sharpen($sharpen = 1)
     {
         return $this->setParam('sharpen', (int)$sharpen);
@@ -143,6 +149,12 @@ class ImageConfig
         return $this->getParam('sharpen');
     }
 
+    /**
+     * Blur an image. Values range from 1 (slight blur) to 100 (maximum blur).
+     *
+     * @param int $blur
+     * @return ImageConfig
+     */
     public function blur($blur = 1)
     {
         return $this->setParam('blur', (int)$blur);
