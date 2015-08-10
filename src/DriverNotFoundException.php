@@ -1,5 +1,5 @@
 <?php namespace DeSmart\ResizeImage;
 
-class DriverNotFoundException extends \BadMethodCallException
+class DriverNotFoundException extends \LogicException
 {
 }
