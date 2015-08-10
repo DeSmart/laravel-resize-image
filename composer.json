@@ -4,7 +4,31 @@
         {
             "name": "Kamil Fojuth",
             "email": "fen@desmart.com"
+        },
+        {
+            "name": "Radosław Mejer",
+            "email": "radmen@desmart.com"
         }
     ],
-    "require": {}
+    "require": {
+        "desmart/files": "2.1.*",
+        "intervention/image": "2.3.*"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "~2.1@dev"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "DeSmart\\ResizeImage\\": "src/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://dev:o4ywKVHjvTJwkLHlgyl1@packagist.desmart.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
