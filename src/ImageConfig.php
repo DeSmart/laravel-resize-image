@@ -22,6 +22,7 @@ class ImageConfig
         'g' => 'greyscale',
         's' => 'sharpen',
         'b' => 'blur',
+        'scale' => 'scale',
     ];
 
     public function __construct(array $resizeParams = [])
@@ -163,6 +164,16 @@ class ImageConfig
     public function getBlur()
     {
         return $this->getParam('blur');
+    }
+
+    public function scale($scale = true)
+    {
+        return $this->setParam('scale', $scale);
+    }
+
+    public function getScale()
+    {
+        return $this->getParam('scale');
     }
 
     /**

@@ -102,6 +102,20 @@ class ResizeImage
             }
         }
 
+        // Scale the image preserving ratio
+        if ($imageConfig->getScale()) {
+            if ($width) {
+                $image->resize($width, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+            }
+            else {
+                $image->resize(null, $height, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+            }
+        }
+
         // Greyscale
         if ($imageConfig->getGreyscale()) {
             $image->greyscale();
