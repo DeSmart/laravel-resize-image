@@ -11,8 +11,10 @@
         }
     ],
     "require": {
-        "desmart/files": "2.1.*",
-        "intervention/image": "2.3.*"
+        "desmart/files": "2.2.*",
+        "intervention/image": "2.3.*",
+        "illuminate/filesystem": "5.1.*",
+        "illuminate/support": "5.1.*"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.1@dev"
