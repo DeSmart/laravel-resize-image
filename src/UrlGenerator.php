@@ -37,7 +37,7 @@ class UrlGenerator
 
         $urlObject = new UrlObject(
             dirname($file->getPath()),
-            $file->getName(),
+            basename($file->getPath()),
             $imageConfig->getParams()
         );
 
