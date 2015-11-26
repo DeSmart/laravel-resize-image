@@ -11,9 +11,9 @@ use DeSmart\ResizeImage\FileNotFoundException;
 class ResizeImageSpec extends ObjectBehavior
 {
     function let(FilesystemAdapter $storage, ImageManager $imageManager)
-{
-    $this->beConstructedWith($storage, $imageManager);
-}
+    {
+        $this->beConstructedWith($storage, $imageManager);
+    }
 
     function it_throws_exception_when_original_image_does_not_exist(FilesystemAdapter $storage)
     {
