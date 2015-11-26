@@ -56,7 +56,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     protected function registerRoutes()
     {
-        $this->app->get('/upload/resize/{path:.+}', 'DeSmart\ResizeImage\Controller\ResizeImageController@getImage');
+        $this->app['router']->get('/upload/resize/{path}', 'DeSmart\ResizeImage\Controller\ResizeImageController@getImage')
+            ->where('path', '.+');
     }
 
     protected function registerProviders()
