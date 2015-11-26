@@ -26,13 +26,13 @@ class ResizeImageSpec extends ObjectBehavior
 
     public function it_returns_an_image(FilesystemAdapter $storage, ImageManager $imageManager, Image $image)
     {
-        $image->response()->shouldBeCalled()->willReturn('image');
+        $image->encode(Argument::any())->shouldBeCalled()->willReturn('image');
 
         $imageManager->make('resource')->shouldBeCalled()->willReturn($image);
 
         $storage->exists('foo/bar.jpg')->shouldBeCalled()->willReturn(true);
         $storage->get('foo/bar.jpg')->shouldBeCalled()->willReturn('resource');
-        $storage->put('resize/foo/bar.jpg', $image->getWrappedObject()->response())->shouldBeCalled();
+        $storage->put('resize/foo/bar.jpg', $image->getWrappedObject()->encode(Argument::any()))->shouldBeCalled();
 
         $urlObject = new UrlObject('foo', 'bar.jpg');
 

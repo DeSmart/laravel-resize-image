@@ -66,14 +66,16 @@ class ResizeImage
     protected function createImage(UrlObject $urlObject)
     {
         $imageConfig = ImageConfig::createFromUrlObject($urlObject);
+        $targetFilePath = Encoder::encodeFromUrlObject($urlObject);
 
         // Make the image
         $image = $this->makeImage($imageConfig, $urlObject->getFullPath());
 
-        $targetFilePath = Encoder::encodeFromUrlObject($urlObject);
-
         // Store the image
-        $this->storage->put('resize/'.$targetFilePath, $image->response());
+        $this->storage->put(
+            'resize' . DIRECTORY_SEPARATOR . $targetFilePath,
+            $image->encode(pathinfo($urlObject->getFullPath(), PATHINFO_EXTENSION))
+        );
 
         return $image;
     }
