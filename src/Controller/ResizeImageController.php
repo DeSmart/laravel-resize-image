@@ -1,10 +1,10 @@
 <?php namespace DeSmart\ResizeImage\Controller;
 
-use Illuminate\Http\Response;
 use DeSmart\ResizeImage\Url\Decoder;
-use App\Http\Controllers\Controller;
 use DeSmart\ResizeImage\ResizeImage;
 use DeSmart\ResizeImage\FileNotFoundException;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ResizeImageController extends Controller
