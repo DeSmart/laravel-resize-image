@@ -100,7 +100,14 @@ class ResizeImage
                 $image->fit($width, $height);
             }
             else {
-                $image->resize($width, $height);
+                if ($imageConfig->getKeepRatio()) {
+                    $image->resize($width, $height, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                }
+                else {
+                    $image->resize($width, $height);
+                }
             }
         }
 
