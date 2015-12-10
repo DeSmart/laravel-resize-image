@@ -19,6 +19,7 @@ class ImageConfig
         'w' => 'width',
         'h' => 'height',
         'fit' => 'fit',
+        'ratio' => 'keepRatio',
         'g' => 'greyscale',
         's' => 'sharpen',
         'b' => 'blur',
@@ -122,6 +123,16 @@ class ImageConfig
     public function getFit()
     {
         return $this->getParam('fit');
+    }
+
+    public function keepRatio($keep = true)
+    {
+        return $this->setParam('keepRatio', (bool)$keep);
+    }
+
+    public function getKeepRatio()
+    {
+        return $this->getParam('keepRatio');
     }
 
     public function greyscale($greyscale = true)

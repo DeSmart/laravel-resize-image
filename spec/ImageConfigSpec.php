@@ -63,4 +63,17 @@ class ImageConfigSpec extends ObjectBehavior
             'fit' => true,
         ]);
     }
+
+    function it_remembers_ratio_setting()
+    {
+        $this->width(450)
+            ->height(300)
+            ->keepRatio();
+        
+        $this->getParams()->shouldBe([
+            'w' => 450,
+            'h' => 300,
+            'ratio' => true
+        ]);
+    }
 }
