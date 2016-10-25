@@ -11,13 +11,13 @@
         }
     ],
     "require": {
-        "desmart/files": "2.2.*",
+        "desmart/files": "dev-feature/laravel-53",
         "intervention/image": "2.3.*",
-        "illuminate/filesystem": "5.1.*",
-        "illuminate/support": "5.1.*"
+        "illuminate/filesystem": "5.3.*",
+        "illuminate/support": "5.3.*"
     },
     "require-dev": {
-        "phpspec/phpspec": "~2.1@dev"
+        "phpspec/phpspec": "3.1.*"
     },
     "license": "MIT",
     "autoload": {
@@ -29,8 +29,15 @@
         {
             "type": "composer",
             "url": "http://dev:o4ywKVHjvTJwkLHlgyl1@packagist.desmart.com"
+        },
+        {
+            "type": "vcs",
+            "url": "https://git.desmart.com/laravel/files.git"
         }
     ],
+    "config": {
+        "secure-http": false
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
