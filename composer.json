@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "desmart/files": "dev-feature/laravel-53",
+        "desmart/files": "2.3.*",
         "intervention/image": "2.3.*",
         "illuminate/filesystem": "5.3.*",
         "illuminate/support": "5.3.*"
@@ -29,10 +29,6 @@
         {
             "type": "composer",
             "url": "http://dev:o4ywKVHjvTJwkLHlgyl1@packagist.desmart.com"
-        },
-        {
-            "type": "vcs",
-            "url": "https://git.desmart.com/laravel/files.git"
         }
     ],
     "config": {

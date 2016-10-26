@@ -32,7 +32,7 @@ class ResizeImageController extends Controller
             $urlObject = Decoder::decodePath($path);
             $image = $this->resizeImage->resize($urlObject);
 
-            return new Response($image);
+            return $image->response();
         } catch (FileNotFoundException $e) {
             throw new NotFoundHttpException;
         }
